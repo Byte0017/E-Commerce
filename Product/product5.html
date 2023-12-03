@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon"
+        href="https://th.bing.com/th/id/R.3ca957a349b3d10a8c58f9c705372869?rik=rjKMNk9Ogb55cA&riu=http%3a%2f%2fcdn.onlinewebfonts.com%2fsvg%2fimg_62254.png&ehk=O%2fW4SjDbqQnmTgLlvC73367DXJYPcI91yPDdHVwMBD4%3d&risl=&pid=ImgRaw&r=0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand pe-5" href="../index.html">
+                <h3>E-Commerce</h3>
+            </a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.html#limitedoffer">Limited
+                            Offers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.html#accessories">Accessories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.html#clothes">Clothes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Shoes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Food</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+            <div class="carticon" onclick="opencart()">
+                <i class="fa fa-shopping-cart" style="font-size:24px;color: white;
+          margin-left: 20px;
+          margin-right: 20px;
+          align-items: center;"></i>
+            </div>
+        </div>
+    </nav>
+    <div class="overlay" id="overlay">
+        <div class="cart">
+            <div class="cart_head">
+                <button class="close" type="button" onclick="closecart()">&#x2715;</button>
+                <h2>Your Cart</h2>
+                <h2></h2>
+            </div>
+            <hr>
+            <div class="cart_items" id="cartItems">
+            </div>
+            <div class="cart_total">
+                Total: Rs 0.00
+            </div>
+            <div class="checkout-button">
+                <a href="payment.html" target="_blank">Proceed to Payment</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="item">
+        <img src="../Images/Accessories/5.webp" class="img_acc" alt="Accessories">
+        <div class="details">
+            <h4>White 2nd Gen AirPods with Charging Case</h4>
+            <h5>Apple</h5>
+            <h3>Rs 14999</h3>
+        </div>
+        <button class="add-to-cart-button" type="button" onclick="addToCart(4)">Add to Cart</button>
+    </div>
+    </div>
+
+
+
+
+    <footer class="footer">
+        <p>&copy; 2023 E-Commerce | Made and designed solely by Anuj Garg</p>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+
+</html>
