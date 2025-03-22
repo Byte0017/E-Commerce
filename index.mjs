@@ -1,86 +1,87 @@
 const inputTask = document.querySelector("#addTask");
 const addTaskBtn = document.querySelector("#addTaskBtn");
 const speakBtn = document.querySelector("#speakBtn");
+const prioritySelect = document.querySelector("#priority");
 const container = document.querySelector(".container");
 const message = document.querySelector("#message");
 
-// Initialize ID based on localStorage
-let id =
-  localStorage.length > 0
-    ? Math.max(...Object.keys(localStorage).map(Number)) + 1
-    : 1;
+let id = localStorage.length > 0 ? Math.max(...Object.keys(localStorage).map(Number)) + 1 : 1;
 
-// Load tasks from localStorage on page load
 document.addEventListener("DOMContentLoaded", () => {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    const task = localStorage.getItem(key);
-    if (task) addTask(task, key, false); // Pass false to prevent re-adding to localStorage
+    const taskData = JSON.parse(localStorage.getItem(key));
+    if (taskData) addTask(taskData.task, taskData.priority, key, false);
   }
 });
 
-// Add task event
-addTaskBtn.addEventListener("click", () => addTask(inputTask.value.trim()));
+addTaskBtn.addEventListener("click", () => {
+  addTask(inputTask.value.trim(), prioritySelect.value);
+});
 
-// Speech recognition setup
 speakBtn.addEventListener("click", () => {
-  const recognition = new webkitSpeechRecognition();
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
   recognition.lang = "en-US";
-  recognition.onresult = (e) => addTask(e.results[0][0].transcript.trim());
-  recognition.onerror = recognition.onend = () =>
-    (speakBtn.textContent = "Speak");
-  speakBtn.textContent = "Listening...";
+  recognition.onresult = (e) => addTask(e.results[0][0].transcript.trim(), prioritySelect.value);
+  recognition.onerror = recognition.onend = () => (speakBtn.innerHTML = '<i class="material-icons">mic</i> Speak');
+  speakBtn.innerHTML = '<i class="material-icons">hearing</i> Listening...';
   recognition.start();
 });
 
-// Add task to the container and localStorage
-function addTask(task, taskId = null, save = true) {
+function addTask(task, priority, taskId = null, save = true) {
   if (!task) return showMessage("Task cannot be empty.", "error");
 
-  taskId = taskId || id++; // Use existing ID if provided, otherwise increment the ID
-  if (save) localStorage.setItem(taskId, task);
+  taskId = taskId || id++;
+  const taskData = { task, priority, timestamp: new Date().toISOString() };
+  if (save) localStorage.setItem(taskId, JSON.stringify(taskData));
 
   const taskDiv = document.createElement("div");
-  taskDiv.className = "task";
-  taskDiv.dataset.id = taskId; // Store the ID in the element for easy access
+  taskDiv.className = `task priority-${priority}`;
+  taskDiv.dataset.id = taskId;
 
   taskDiv.innerHTML = `
+    <div class="task-header">
+      <span class="priority-indicator"></span>
+      <span class="timestamp">${new Date(taskData.timestamp).toLocaleString()}</span>
+    </div>
     <textarea readonly>${task}</textarea>
-    <button class="edit">Edit</button>
-    <button class="delete">Delete</button>
+    <div class="task-actions">
+      <button class="edit"><i class="material-icons">edit</i></button>
+      <button class="delete"><i class="material-icons">delete</i></button>
+    </div>
   `;
 
-  taskDiv
-    .querySelector(".edit")
-    .addEventListener("click", (e) => toggleEdit(e.target));
+  taskDiv.querySelector(".edit").addEventListener("click", (e) => toggleEdit(e.target));
   taskDiv.querySelector(".delete").addEventListener("click", () => {
-    localStorage.removeItem(taskId); // Remove task from localStorage
-    taskDiv.remove(); // Remove task from DOM
+    localStorage.removeItem(taskId);
+    taskDiv.remove();
     showMessage("Task deleted successfully!", "success");
   });
 
   container.appendChild(taskDiv);
+  inputTask.value = ""; // Clear input after adding
   showMessage("Task added successfully!", "success");
 }
 
-// Toggle edit/save functionality
 function toggleEdit(button) {
-  const textarea = button.previousElementSibling;
+  const taskDiv = button.closest(".task");
+  const textarea = taskDiv.querySelector("textarea");
   const isReadOnly = textarea.hasAttribute("readonly");
   textarea.toggleAttribute("readonly");
-  button.textContent = isReadOnly ? "Save" : "Edit";
+  button.innerHTML = isReadOnly ? '<i class="material-icons">save</i>' : '<i class="material-icons">edit</i>';
 
   if (!isReadOnly) {
-    const taskId = button.parentElement.dataset.id;
+    const taskId = taskDiv.dataset.id;
     const updatedTask = textarea.value.trim();
-    localStorage.setItem(taskId, updatedTask); // Update the task in localStorage
+    const taskData = JSON.parse(localStorage.getItem(taskId));
+    taskData.task = updatedTask;
+    localStorage.setItem(taskId, JSON.stringify(taskData));
     showMessage("Task updated successfully!", "success");
   }
 }
 
-// Display feedback message
 function showMessage(msg, type) {
   message.textContent = msg;
-  message.style.color = type === "error" ? "red" : "green";
-  setTimeout(() => (message.textContent = ""), 3000); // Clear after 3 seconds
+  message.className = type;
+  setTimeout(() => (message.textContent = ""), 3000);
 }
