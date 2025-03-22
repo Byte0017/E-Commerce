@@ -1,0 +1,134 @@
+/* Global styles */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.addTaskContainer {
+  width: 80%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#addTask {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  transition: border 0.3s;
+}
+
+#addTask:focus {
+  border-color: #81c784;
+  outline: none;
+}
+
+#addTaskBtn,
+#speakBtn {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#addTaskBtn:hover,
+#speakBtn:hover {
+  background-color: #388e3c;
+}
+
+.container {
+  width: 80%;
+  max-width: 600px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.task {
+  background-color: #fafafa;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  font-size: 1rem;
+  background-color: transparent;
+}
+
+button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button.delete {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+button.delete:hover {
+  background-color: #f44336;
+}
+
+button.edit {
+  background-color: #ffc107;
+  color: black;
+}
+
+button.edit:hover {
+  background-color: #ffb300;
+}
+
+#message {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: red;
+}
+
+@media (max-width: 768px) {
+  .addTaskContainer {
+    width: 90%;
+  }
+  .container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .addTaskContainer {
+    width: 100%;
+  }
+  .container {
+    width: 100%;
+  }
+}
